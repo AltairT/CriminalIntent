@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CriminalIntent</string>
+    <string name="crime_title_hint">输入Crime的标题</string>
+    <string name="crime_title_label">标题</string>
+    <string name="crime_details_label">详情</string>
+    <string name="crime_solved_label">已解决</string>
+    <string name="date_picker_title">选择时间</string>
+    <string name="new_crime">添加</string>
+    <string name="show_subtitle">显示副标题</string>
+    <string name="hide_subtitle">隐藏副标题</string>
+    <string name="subtitle_format">%1$s crimes</string>
+    <string name="subtitle_format_less_one">%1$s crime</string>
+    <string name="crime_report">不良行为 %1$s!
+            于 %2$s发现,%3$s, %4$s </string>
+    <string name="crime_report_solved">不良行为已改正</string>
+    <string name="crime_report_unsolved">不良行为未改正</string>
+    <string name="crime_report_no_suspect">未找到嫌疑人</string>
+    <string name="crime_report_suspect">嫌疑人是 %s</string>
+    <string name="crime_report_subject">不良行为报告</string>
+    <string name="send_report">选择发送报告的方式</string>
+
+</resources>
+
