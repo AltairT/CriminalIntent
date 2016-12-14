@@ -1,11 +1,14 @@
 package com.bignerdranch.android.criminalintent;
 
+//这个Acitivty后面已经被CrimePagerActivity取代了
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +33,7 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
     private TextView nothing2Show;
+    private Callbacks mCallbacks;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,8 +97,10 @@ public class CrimeListFragment extends Fragment {
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
                 // nothing2Show.setVisibility(View.INVISIBLE);
-                Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
-                startActivity(intent);
+//                Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
+//                startActivity(intent);
+                updateUI();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.menu_item_show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
@@ -108,7 +114,7 @@ public class CrimeListFragment extends Fragment {
 
     }
 
-    private void updateUI() {
+    public void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
 
         List<Crime> crimes = crimeLab.getCrimes();
@@ -187,7 +193,7 @@ public class CrimeListFragment extends Fragment {
 //            Intent intent = new Intent(getActivity(), CrimeActivity.class);
             //获取位置不对  pos = mCrimeRecyclerView.findViewHolderForAdapterPosition();
 //            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
-            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+
             List<Crime> mCrimes = CrimeLab.get(getActivity()).getCrimes();
             for (int i = 0; i < mCrimes.size(); i++) {
                 if (mCrimes.get(i).getId().equals(mCrime.getId())) {
@@ -195,8 +201,9 @@ public class CrimeListFragment extends Fragment {
                     break;
                 }
             }
-
-            startActivity(intent);
+//            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+//            startActivity(intent);
+            mCallbacks.onCrimeSelected(mCrime);
 
         }
     }
@@ -240,5 +247,20 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+    }
+
+    @Override
+    public void onAttach(Activity mActivity) {
+        super.onAttach(mActivity);
+        mCallbacks = (Callbacks) mActivity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
 
 }
